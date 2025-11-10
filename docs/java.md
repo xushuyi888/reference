@@ -80,8 +80,8 @@ for (char c: word.toCharArray()) {
 
 ```java
 char[] chars = new char[10];
-chars[0] = 'a'
-chars[1] = 'b'
+chars[0] = 'a';
+chars[1] = 'b';
 String[] letters = {"A", "B", "C"};
 int[] mylist = {100, 200};
 boolean[] answers = {true, false};
@@ -311,8 +311,9 @@ int[] a2 = {1, 2, 3};
 int[] a3 = new int[]{1, 2, 3};
 int[] a4 = new int[3];
 a4[0] = 1;
-a4[2] = 2;
-a4[3] = 3; // 会出现索引越界异常
+a4[1] = 2;
+a4[2] = 3; // 正常赋值
+a4[3] = 4; // 会出现索引越界异常 ArrayIndexOutOfBoundsException
 ```
 
 ### 修改 Modify
@@ -340,7 +341,7 @@ for (int i=0; i < arr.length; i++) {
 
 ```java
 String[] arr = {"a", "b", "c"};
-for (int a: arr) {
+for (String a: arr) {
     System.out.print(a + " ");
 }
 // 输出: a b c
@@ -351,7 +352,7 @@ for (int a: arr) {
 ```java
 int[][] matrix = {{1, 2, 3}, {4, 5}, {6}};
 int x = matrix[1][0];  // 4
-System.out.Println(Arrays.deepToString(matrix));
+System.out.println(Arrays.deepToString(matrix));
 // 输出: [[1, 2, 3], [4, 5], [6]]
 for (int i = 0; i < matrix.length; ++i) {
     for(int j = 0; j < matrix[i].length; ++j) {
@@ -587,6 +588,255 @@ for (int i = 0; i < 5; i++) {
 // 输出: 0123
 ```
 
+Java 面向对象
+---
+
+### 类的定义
+
+```java
+public class Dog {
+  private String name;
+
+  // 构造方法无无返回值，方法名与类名相同
+  // 一个类可以有多个构造方法
+  // Java 默认提供一个无参构造方法（只有在没有显式定义任何构造方法时）
+  public Dog() {
+  }
+
+  public Dog(String name) {
+    this.name = name;
+  }
+}
+```
+
+### 类中的变量
+
+```java
+public class Dog {
+  // 成员变量
+  private String name;
+
+  // 类变量
+  // 多对象将会共享同一个类变量
+  static int val = 10;
+
+  public void Say() {
+    // 局部变量
+    String sentence = "hello";
+    System.out.println(sentence);
+  }
+}
+```
+
+### 对象的创建
+
+```java
+Dog myDog = new Dog(); // 调用无参构造函数
+Dog myDog2 = new Dog("aaa"); // 调用对应参数列表的构造函数
+
+// 调用方法
+myDog.Say();
+```
+
+### 对象的继承
+
+```java
+public Animal {
+
+ public String name;
+
+  public Animal(String name) {
+    this.name = name;
+  }
+
+  public void eat() {
+    System.out.println("eat something");
+  }
+}
+
+// Dog类继承Animal类
+public Dog extends Animal {
+  // 调用父类的构造函数
+  public Dog(String name){
+    super(name);
+  }
+}
+```
+
+请注意Java不支持多继承，只能够单继承，但支持多重继承
+即，一个类最多只有一个父类，但可以有爷爷类和太爷爷类
+
+#### Java继承的特点
+
+- 子类拥有父类中可访问的属性和方法（public、protected 以及同包访问权限的成员）
+- 子类可以有自己的属性、方法
+- 子类可以重写父类的方法
+
+#### super 与 this
+
+super引用当前类的父类
+this引用自身
+
+```java
+class Animal {
+  void eat() {
+    System.out.println("animal : eat");
+  }
+}
+
+class Dog extends Animal {
+  void eat() {
+    System.out.println("dog : eat");
+  }
+  void eatTest() {
+    this.eat();   // this 调用自己的方法
+    super.eat();  // super 调用父类方法
+  }
+}
+```
+
+#### final 关键字
+
+被final 关键字修饰的类不能够被继承
+被final 关键字修饰的方法不能被子类重写
+
+### Java的重写(Override)与重载(Overload)
+
+#### 重写(Override)
+
+重写者位于被重写者的子类中
+重写者的签名必须与被重写者的签名相同
+
+```java
+class Animal {
+  // 被重写者
+  void say(String sentence) {
+    System.out.println("Animal say: " + sentence);
+  }
+}
+
+class Dog extends Animal {
+  // 重写者
+  // 重写者位于被重写者的子类 重写一般需要添加 @Override 注解
+  @Override
+  void say(String sentence) { // 签名与被重写者相同
+    System.out.println("Dog say: " + sentence);
+  }
+}
+```
+
+#### 重载(Overload)
+
+重载位于同一类内部
+签名必须不同
+
+```java
+public class Overloading {
+  public int test(){
+    System.out.println("test1");
+    return 1;
+  }
+
+  public void test(int a) {
+    System.out.println("test2");
+  }
+
+    //以下两个参数类型顺序不同
+  public String test(int a,String s){
+    System.out.println("test3");
+    return "returntest3";
+  }
+
+  public String test(String s,int a){
+    System.out.println("test4");
+    return "returntest4";
+  }
+}
+```
+
+### Java 抽象类
+
+抽象类不能被实例化为对象，因此，抽象类必须被继承才能够使用
+抽象类使用abstract 关键字进行修饰
+
+```java
+public abstract class Animal {
+  String name;
+
+  public Animal(String name) {
+    this.name = name;
+  }
+}
+
+public class Dog extends Animal {
+  public Dog(String name) {
+    super(name);
+  }
+}
+```
+
+使用abstract 关键字修饰的方法是抽象方法
+抽象方法必须包含在抽象类中
+子类必须重写父类中的所有抽象方法，除非子类也是抽象类
+
+```java
+public abstract class Animal {
+  String name;
+
+  public Animal(String name) {
+    this.name = name;
+  }
+
+  public abstract void say();
+}
+
+public class Dog extends Animal {
+  public Dog(String name) {
+    super(name);
+  }
+
+  public void say(){
+    System.out.println("Dog");
+  }
+
+}
+```
+
+### Java 接口
+
+#### 接口的定义
+
+与类的继承不同，接口可以继承多个接口
+
+```java
+[可见性修饰符] interface 接口名称 [extends 其他接口名列表] {
+  // 声明变量
+  // 抽象方法
+}
+```
+
+#### 接口的实现
+
+一个类可以实现多个接口
+类必须实现接口的所有方法，除非该类是抽象类
+
+```java
+public interface Animal {
+  public void eat();
+  public void say();
+}
+
+public class Dog implements Animal {
+  public void eat() {
+    System.out.println("Dog eat something");
+  }
+
+  public void say() {
+    System.out.println("Dog say something");
+  }
+}
+```
+
 Java 多线程
 ---
 
@@ -631,7 +881,7 @@ public class ExtendsThread extends Thread {
 ```java
 public static void main(String[] args) throws ExecutionException, InterruptedException {
     new Thread(new RunnableThread()).start();
-    new ExtendsThread2().start();
+    new ExtendsThread().start();
     FutureTask<Integer> integerFutureTask = new FutureTask<>(new CallableTask());
     integerFutureTask.run();
 }
@@ -643,7 +893,7 @@ public static void main(String[] args) throws ExecutionException, InterruptedExc
 - corePoolSize: 核心线程数
 - maximumPoolSize: 最大线程数
 - keepAliveTime: 线程空闲时间
-- timeUni: 线程空闲时间单位
+- TimeUnit: 线程空闲时间单位
 - workQueue: 线程等待队列
 - threadFactory: 线程创建工厂
 - handler: 拒绝策略
@@ -673,9 +923,13 @@ synchronized(obj) {
    ...
 }
 
-// (静态)方法
-public synchronized
-  (static) void methodName() {
+// 实例方法同步
+public synchronized void methodName() {
+   ...
+}
+
+// 静态方法同步
+public static synchronized void methodName() {
    ...
 }
 ```
@@ -749,7 +1003,7 @@ try{
     condition.signal();
     condition.signalAll();
 } finally {
-  lock.unlock
+  lock.unlock();
 }
 
 // LockSupport,可以先unpark,后续park不会阻塞线程
@@ -775,7 +1029,7 @@ Java 框架搜集
 [CopyOnWriteArraySet](https://docs.oracle.com/javase/8/docs/api/java/util/concurrent/CopyOnWriteArraySet.html)     | Set         | Y       | _N_    | Y           | _N_       | One `null`
 [ConcurrentSkipListSet](https://docs.oracle.com/javase/8/docs/api/java/util/concurrent/ConcurrentSkipListSet.html) | Set         | Y       | Y      | Y           | _N_       | _N_
 [HashMap](https://docs.oracle.com/javase/8/docs/api/java/util/HashMap.html)                                        | Map         | _N_     | _N_    | _N_         | _N (key)_ | One `null` _(key)_
-[HashTable](https://docs.oracle.com/javase/8/docs/api/java/util/Hashtable.html)                                    | Map         | _N_     | _N_    | Y           | _N (key)_ | _N (key)_
+[Hashtable](https://docs.oracle.com/javase/8/docs/api/java/util/Hashtable.html)                                    | Map         | _N_     | _N_    | Y           | _N (key)_ | _N (key)_
 [LinkedHashMap](https://docs.oracle.com/javase/8/docs/api/java/util/LinkedHashMap.html)                            | Map         | Y       | _N_    | _N_         | _N (key)_ | One `null` _(key)_
 [TreeMap](https://docs.oracle.com/javase/8/docs/api/java/util/TreeMap.html)                                        | Map         | Y       | Y      | _N_         | _N (key)_ | _N (key)_
 [ConcurrentHashMap](https://docs.oracle.com/javase/8/docs/api/java/util/concurrent/ConcurrentHashMap.html)         | Map         | _N_     | _N_    | Y           | _N (key)_ | _N_
@@ -804,7 +1058,7 @@ for (int i = 0; i < nums.size(); i++) {
     System.out.println(nums.get(i));
 }
 nums.remove(nums.size() - 1);
-nums.remove(0); // 非常慢
+nums.remove(0); // 较慢，因为需要移动后续元素
 for (Integer value : nums) {
     System.out.println(value);
 }
@@ -957,11 +1211,11 @@ Java I/O流
 ### 字节流
 
 ```java
-// 文件输入流
+// 文件输入流 （注意：需要手动关闭或使用 try-with-resources）
 InputStream inputStream
   = new FileInputStream("input.txt");
 
-// 文件输出流
+// 文件输出流 （注意：需要手动关闭或使用 try-with-resources）
 OutputStream outputStream
   = new FileOutputStream("output.txt");
 
@@ -1246,8 +1500,8 @@ Class<?>[] interfaces = clazz.getInterfaces();
 <!--rehype:wrap-class=col-span-2-->
 
 ```java
-// 使用默认构造函数创建对象
-MyClass instance = (MyClass) clazz.newInstance();
+// 使用默认构造函数创建对象（注意：newInstance() 已废弃）
+MyClass instance = (MyClass) clazz.getDeclaredConstructor().newInstance();
 
 // 使用带参数的构造函数创建对象
 Constructor<?> constructor = clazz.getConstructor(String.class, int.class);
@@ -1347,6 +1601,10 @@ Consumer<String> test = System.out::println;
 Comparator<Integer> comparator = Math::max;
 
 int result = comparator.compare(1, 2);
+// 返回 -1 
+
+BinaryOperator<Integer> maxOperator = Math::max;
+int result = maxOperator.apply(1, 2);
 // 返回 2
 ```
 
@@ -1354,8 +1612,8 @@ int result = comparator.compare(1, 2);
 
 ```java
 String str = "HELLO";
-
-String lowerCase = str::toLowerCase;
+Supplier<String> lowerCaseSupplier = str::toLowerCase;
+String lowerCase = lowerCaseSupplier.get();
 // 返回 "hello"
 ```
 
@@ -1375,7 +1633,7 @@ Function<Integer, String[]> function = String[]::new;
 
 
 String[] array = function.apply(5);
-// 返回 5 个空字符串的数组
+// 返回长度为 5 的空字符串数组
 ```
 <!--rehype:className=wrap-text-->
 
@@ -1384,7 +1642,8 @@ String[] array = function.apply(5);
 ```java
 String someStr = "HELLO";
 
-String lowerCase = someStr::toLowerCase;
+Supplier<String> lowerCaseSupplier = someStr::toLowerCase;
+String lowerCase = lowerCaseSupplier.get();
 // 返回 "hello"
 ```
 
@@ -1393,7 +1652,8 @@ String lowerCase = someStr::toLowerCase;
 ```java
 SomeClass someObject = new SomeClass();
 
-int result = someObject::staticMethod;
+Supplier<Integer> methodSupplier = someObject::staticMethod;
+int result = methodSupplier.get();
 // 调用静态方法
 ```
 
@@ -1503,7 +1763,7 @@ text.split(Pattern.quote("|"));
 :-|:-
 `Math.max(a,b)`       | `a` 和 `b` 的最大值
 `Math.min(a,b)`       | `a` 和 `b` 的最小值
-`Math.abs(a)`         | 绝对值
+`Math.abs(a)`         | `a` 的绝对值
 `Math.sqrt(a)`        | `a` 的平方根
 `Math.pow(a,b)`       | `b` 的幂
 `Math.round(a)`       | 最接近的整数
@@ -1512,8 +1772,8 @@ text.split(Pattern.quote("|"));
 `Math.tan(ang)`       | `ang` 的切线
 `Math.asin(ang)`      | `ang` 的反正弦
 `Math.log(a)`         | `a` 的自然对数
-`Math.toDegrees(rad)` | 以度为单位的角度弧度
-`Math.toRadians(deg)` | 以弧度为单位的角度度
+`Math.toDegrees(rad)` | 弧度转角度
+`Math.toRadians(deg)` | 角度转弧度
 
 ### 异常 Try/Catch/Finally
 
@@ -1521,9 +1781,12 @@ text.split(Pattern.quote("|"));
 try {
   // something
 } catch (Exception e) {
-  e.printStackTrace();
+  // 建议使用日志框架记录异常
+  logger.error("发生异常", e);
+  // 或者至少使用标准错误流
+  // e.printStackTrace();
 } finally {
-  System.out.println("always printed");
+  System.out.println("总是执行");
 }
 ```
 
@@ -1531,7 +1794,7 @@ try {
 <!--rehype:wrap-class=row-span-2-->
 
 - `ArrayDeque`: 可调整大小的数组双端队列，实现了Deque接口
-- `Arrays`: 提供静态工厂，允许将数组视为列表
+- `Arrays`: 提供操作数组的静态方法，如排序、搜索、比较等
 - `Collections`: 包含操作集合或返回集合的静态方法
 - `Date`: 表示特定时间瞬间，精度为毫秒
 - `Dictionary`: 抽象父类，可用于键值对映射，例如Hashtable

@@ -315,7 +315,7 @@ if (isMailSent) {
 ```javascript
 var age = 1;
 
-// => true
+// => false
 var status = (age >= 18) ? true : false;
 ```
 
@@ -886,7 +886,6 @@ for (let index in fruits) {
 ```
 
 ### label 语句
-<!--rehype:wrap-class= row-span-2-->
 
 ```js
 var num = 0;
@@ -916,10 +915,16 @@ for (let fruit of fruits) {
 // => apple
 // => orange
 // => banana
+
+for (let [index, value] of fruits.entries()) {
+  console.log(index, value);
+}
+// => 0 apple
+// => 1 orange
+// => 2 banana
 ```
 
 ### for await...of
-<!--rehype:wrap-class= row-span-2-->
 
 ```javascript
 async function* asyncGenerator() {
